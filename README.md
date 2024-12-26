@@ -1,0 +1,2 @@
+# NonsensePHP
+Simple PHP Obfuscator
