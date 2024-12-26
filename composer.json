@@ -1,0 +1,15 @@
+{
+    "name": "saubi/php-simple-obfuscate",
+    "autoload": {
+        "psr-4": {
+            "Saubi\\PhpSimpleObfuscate\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "saubi",
+            "email": "saubi@contoso.local"
+        }
+    ],
+    "require": {}
+}
