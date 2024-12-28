@@ -14,6 +14,7 @@ define('SIMPLE_OBFUSCATOR_CYPHERS', [
     'b64' => ['base64_decode', 'base64_encode'],
     'b16' => ['hex2bin', 'bin2hex'], 
     'rot13' => ['str_rot13', 'str_rot13'],
+    'gz' => ['gzinflate', 'gzdeflate']
 
 ]);
 
@@ -205,7 +206,7 @@ function compile_encoded_runtime_and_source_and_message($msg, $program){
     $program = "".PHP_EOL;
     foreach($call_stack as $i => $arr) {
 
-        $program .= "$$arr[0] = \"".call_user_func($var_encode[$i][1], $arr[1])."\";".PHP_EOL;
+        $program .= "$$arr[0] = '".call_user_func($var_encode[$i][1], $arr[1])."';".PHP_EOL;
         $call_vars[] = $var_decode[$i][1]."($$arr[0])";
 
     }
