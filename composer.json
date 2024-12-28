@@ -5,11 +5,16 @@
             "Saubi\\PhpSimpleObfuscate\\": "src/"
         }
     },
+    "scripts": {
+        "run-cli": "php src/bin/nonsense.php --src='./test/fixtures'"
+    },
     "authors": [
         {
             "name": "saubi",
             "email": "saubi@contoso.local"
         }
     ],
-    "require": {}
+    "require-dev": {
+        "phpunit/phpunit": "^11.5"
+    }
 }

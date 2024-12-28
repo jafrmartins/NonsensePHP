@@ -1,5 +1,7 @@
 <?php
 
+namespace Saubi\NonsensePHP\CLI;
+
 define('SIMPLE_OBFUSCATOR_COMMANDS', [
     "obfuscate" => [
         'description' => 'Generates obfuscated files in destination folder',
@@ -10,7 +12,6 @@ define('SIMPLE_OBFUSCATOR_COMMANDS', [
 define('SIMPLE_OBFUSCATOR_CYPHERS', [
 
     'b64' => ['base64_decode', 'base64_encode'],
-    'bin' => ['binary_decode', 'binary_encode'], 
     'b16' => ['hex2bin', 'bin2hex'], 
     'rot13' => ['str_rot13', 'str_rot13'],
 
@@ -153,7 +154,7 @@ function compile_obfuscated_string($encode_keys, $source_string) {
 
 }
 
-function compile_runnable_obfuscated_string($decode_keys, $obfuscated_string, $quote=true) {
+function compile_runnable_obfuscated_string($decode_keys, $obfuscated_string, $quote=true, $runtime=false) {
 
 
     $decoded_source = $obfuscated_string;
@@ -171,10 +172,10 @@ function compile_encoded_runtime_and_source_and_message($msg, $program){
 
     $call_stack = [];
 
-    $program_ops = get_random_obfuscate_ops(sizeof($msg), ['rot13', 'bin']);
+    $program_ops = get_random_obfuscate_ops(1, ['rot13', 'bin']);
 
     $program = compile_obfuscated_string($program_ops[0], $program);
-
+    
     foreach($msg as $i => $var) {
 
         if($i == sizeof($msg)-1) {
@@ -196,26 +197,24 @@ function compile_encoded_runtime_and_source_and_message($msg, $program){
 
     }
 
-
-    
     $call_vars = [];
+    $var_ops = get_random_obfuscate_ops(sizeof($msg));
+    $var_encode = $var_ops[0];
+    $var_decode = array_reverse($var_ops[1]);
 
     $program = "".PHP_EOL;
     foreach($call_stack as $i => $arr) {
 
-        $program .= "$$arr[0] = \"".$arr[1]."\";".PHP_EOL;
-        $call_vars[] = "$$arr[0]";
+        $program .= "$$arr[0] = \"".call_user_func($var_encode[$i][1], $arr[1])."\";".PHP_EOL;
+        $call_vars[] = $var_decode[$i][1]."($$arr[0])";
 
     }
-    
-    $program .= compile_runnable_obfuscated_string($program_ops[1], implode(".", $call_vars), false);
 
+    $program .= compile_runnable_obfuscated_string($program_ops[1], implode(".", $call_vars), false);
     return $program;
 }
 
 function obfuscate_string($original_source, $max_iter, $msg=null, $as_file=false) {
-
-    require_once __DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'lib'.DIRECTORY_SEPARATOR.'functions.php';
 
     $source = $original_source;
     
@@ -230,18 +229,7 @@ function obfuscate_string($original_source, $max_iter, $msg=null, $as_file=false
 
     // COMPILE RUNTIME
 
-    $runtime = file_get_contents(__DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'lib'.DIRECTORY_SEPARATOR.'functions.php');
-    $runtime = str_replace('<?php', '', $runtime);
-    //eval($runtime);
-
-    $runtime_ops = get_random_obfuscate_ops($max_iter, ['bin']);
-    $runtime_encode = $runtime_ops[0];
-    $runtime_decode = $runtime_ops[1];
-
-    $encoded_runtime = compile_obfuscated_string($runtime_encode, $runtime);
-    $decoded_runtime = compile_runnable_obfuscated_string($runtime_decode, $encoded_runtime);
-
-    $program = "$decoded_runtime$decoded_source";
+    $program = "$decoded_source";
 
     //var_dump($program);
     //eval($program); die;
