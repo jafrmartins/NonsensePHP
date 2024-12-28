@@ -14,7 +14,7 @@ define('SIMPLE_OBFUSCATOR_CYPHERS', [
     'b64' => ['base64_decode', 'base64_encode'],
     'b16' => ['hex2bin', 'bin2hex'], 
     'rot13' => ['str_rot13', 'str_rot13'],
-    'gz' => ['gzinflate', 'gzdeflate']
+    'rev' => ['strrev', 'strrev']
 
 ]);
 
@@ -173,7 +173,7 @@ function compile_encoded_runtime_and_source_and_message($msg, $program){
 
     $call_stack = [];
 
-    $program_ops = get_random_obfuscate_ops(1, ['rot13', 'bin']);
+    $program_ops = get_random_obfuscate_ops(1, ['rot13', 'bin', 'gz']);
 
     $program = compile_obfuscated_string($program_ops[0], $program);
     
