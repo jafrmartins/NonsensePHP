@@ -169,13 +169,13 @@ function compile_runnable_obfuscated_string($decode_keys, $obfuscated_string, $q
 
 }
 
-function compile_encoded_runtime_and_source_and_message($msg, $program){
+function compile_encoded_runtime_and_source_and_message($msg, $source){
 
     $call_stack = [];
 
-    $program_ops = get_random_obfuscate_ops(1, ['rot13', 'bin', 'gz']);
+    $program_ops = get_random_obfuscate_ops(1, ['rot13', 'hex2bin']);
 
-    $program = compile_obfuscated_string($program_ops[0], $program);
+    $program = compile_obfuscated_string($program_ops[0], $source);
     
     foreach($msg as $i => $var) {
 
@@ -185,7 +185,7 @@ function compile_encoded_runtime_and_source_and_message($msg, $program){
 
         } else {
 
-            $content = substr($program, 0, random_int(0, strlen($program)-1));
+            $content = substr($program, 0, random_int(0, strlen($program)-1/strlen($source)));
 
         }
 
@@ -228,12 +228,7 @@ function obfuscate_string($original_source, $max_iter, $msg=null, $as_file=false
     $encoded_source = compile_obfuscated_string($source_encode, $source);
     $decoded_source = compile_runnable_obfuscated_string($source_decode, $encoded_source);
 
-    // COMPILE RUNTIME
-
     $program = "$decoded_source";
-
-    //var_dump($program);
-    //eval($program); die;
 
     $encoded_program = compile_encoded_runtime_and_source_and_message($msg, $program);
     return $encoded_program;
@@ -318,5 +313,8 @@ function run_command($argv) {
     }
 
 
-} run_command($argv);
-
+} 
+if (!count(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)))
+{
+    run_command($argv);
+}

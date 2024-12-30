@@ -13,7 +13,7 @@ final class NonsenseTest extends TestCase
     protected $fixturesFolder = __DIR__ .  DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR;
     protected $binFile = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR . 'nonsense.php';
     protected $outFolder = __DIR__ . DIRECTORY_SEPARATOR . 'dist' . DIRECTORY_SEPARATOR;
-    protected $message = 'test message for test purposes';
+    protected $message = 'test message for testing purposes';
 
     public function testFunctionShouldGenerateEncodedExecutableText() {
 
