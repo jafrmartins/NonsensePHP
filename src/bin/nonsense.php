@@ -1,6 +1,6 @@
-<?php
+#!/usr/bin/env php
 
-namespace Saubi\NonsensePHP\CLI;
+<?php
 
 define('SIMPLE_OBFUSCATOR_COMMANDS', [
     "obfuscate" => [
@@ -280,6 +280,8 @@ function run_command($argv) {
                     $args['dest'] = getcwd().DIRECTORY_SEPARATOR."dist";
                     @mkdir(getcwd().DIRECTORY_SEPARATOR."dist", 0777, true);
 
+                } else {
+                    @mkdir($args['dest'], 0777, true);
                 }
 
                 if(!isset($args['dest']) || !is_dir($args['dest'])) {
