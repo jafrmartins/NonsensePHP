@@ -44,12 +44,18 @@ final class NonsenseTest extends TestCase
         $outfile = $this->outFolder.DIRECTORY_SEPARATOR.'hello.php';
         $this->assertFileExists($outfile, "source not generated");
 
-        $output = shell_exec('php ' . realpath($outfile));
-        print($output);
+        $output = shell_exec('php ' . $outfile);
+        $this->assertSame($output, '4 = 4hello');
 
     }
 
     public function testCLIShouldEncodeAllFilesInFolder() {
+
+        $outfile = $this->outFolder . DIRECTORY_SEPARATOR . 'folder' . DIRECTORY_SEPARATOR . 'world.php';
+        $this->assertFileExists($outfile, "source not generated");
+
+        $output = shell_exec('php ' . $outfile);
+        $this->assertSame($output, '4 = 4world');
 
     }
 
@@ -61,7 +67,7 @@ final class NonsenseTest extends TestCase
             '--dest="'.$this->outFolder.'"',
             '--msg="'.$this->message.'"'
         ];
-        var_dump('php ' .$this->binFile . " obfuscate " . implode(" ", $options));
+        
         system('php ' .$this->binFile . " obfuscate " . implode(" ", $options));
     }
 

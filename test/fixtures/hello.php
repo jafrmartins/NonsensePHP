@@ -1,8 +1,2 @@
 <?php echo 2+2 ?> = <?php echo 4 ?>
-<?php
-
-
-eval("echo 'hello';");
-
-?>
-
+<?php eval("echo 'hello';"); ?>

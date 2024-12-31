@@ -13,6 +13,7 @@ define('SIMPLE_OBFUSCATOR_CYPHERS', [
 
     'b64' => ['base64_decode', 'base64_encode'],
     'b16' => ['hex2bin', 'bin2hex'], 
+    //'a85' => ['ascii85_decode', 'ascii85_encode']
     'rot13' => ['str_rot13', 'str_rot13'],
     'rev' => ['strrev', 'strrev']
 
@@ -155,7 +156,7 @@ function compile_obfuscated_string($encode_keys, $source_string) {
 
 }
 
-function compile_runnable_obfuscated_string($decode_keys, $obfuscated_string, $quote=true, $runtime=false) {
+function compile_runnable_obfuscated_string($decode_keys, $obfuscated_string, $quote=true, $runtime=false, $ops_only=false) {
 
 
     $decoded_source = $obfuscated_string;
@@ -164,17 +165,16 @@ function compile_runnable_obfuscated_string($decode_keys, $obfuscated_string, $q
         $decoded_source = $op[1]."(".$decoded_source.")";
     }
 
-    return "eval($decoded_source);";
+    return $ops_only ? $decoded_source : "eval($decoded_source);";
 
 
 }
 
-function compile_encoded_runtime_and_source_and_message($msg, $source){
+function compile_encoded_runtime_and_source_and_message($msg, $source, $max_iter){
 
     $call_stack = [];
 
-    $program_ops = get_random_obfuscate_ops(1, ['rot13', 'hex2bin']);
-
+    $program_ops = get_random_obfuscate_ops($max_iter);
     $program = compile_obfuscated_string($program_ops[0], $source);
     
     foreach($msg as $i => $var) {
@@ -185,7 +185,7 @@ function compile_encoded_runtime_and_source_and_message($msg, $source){
 
         } else {
 
-            $content = substr($program, 0, random_int(0, strlen($program)-1/strlen($source)));
+            $content = substr($program, 0, random_int(0, strlen($program)-1));
 
         }
 
@@ -221,7 +221,7 @@ function obfuscate_string($original_source, $max_iter, $msg=null, $as_file=false
     
     // COMPILE SOURCE CODE
 
-    $source_ops = get_random_obfuscate_ops($max_iter);
+    $source_ops = get_random_obfuscate_ops($max_iter, ['rot13', 'rev']);
     $source_encode = $source_ops[0];
     $source_decode = $source_ops[1];
 
@@ -230,7 +230,7 @@ function obfuscate_string($original_source, $max_iter, $msg=null, $as_file=false
 
     $program = "$decoded_source";
 
-    $encoded_program = compile_encoded_runtime_and_source_and_message($msg, $program);
+    $encoded_program = compile_encoded_runtime_and_source_and_message($msg, $program, $max_iter);
     return $encoded_program;
     
 
