@@ -1,6 +1,8 @@
 # NonsensePHP
 
-Simple PHP Obfuscator
+A Simple PHP Obfuscator
+
+## Usage
 
 ```bash
 USAGE simpleobfuscate.php obfuscate <options>
