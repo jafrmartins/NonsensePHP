@@ -73,7 +73,7 @@ final class NonsenseTest extends TestCase
 
     protected function tearDown() : void
     {
-        //system('rm -rf  ' .$this->outFolder);
+        system('rm -rf  ' .$this->outFolder);
     }
 
 }

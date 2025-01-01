@@ -6,7 +6,9 @@
         }
     },
     "scripts": {
-        "run-cli": "php src/bin/nonsense.php --src='./test/fixtures'"
+        "run-cli": "php src/bin/nonsense.php obfuscate --src='./test/fixtures'",
+        "run-tests": "./vendor/bin/phpunit test --stop-on-failure"
+
     },
     "authors": [
         {
