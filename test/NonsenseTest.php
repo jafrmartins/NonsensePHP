@@ -3,7 +3,7 @@
 namespace Saubi\NonsensePHP\Tests;
 
 require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
-require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR . 'nonsense.php';;
+require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR . 'nonsensephp';;
 
 use PHPUnit\Framework\TestCase;
 

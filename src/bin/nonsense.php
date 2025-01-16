@@ -5,7 +5,7 @@
 define('SIMPLE_OBFUSCATOR_COMMANDS', [
     "obfuscate" => [
         'description' => 'Generates obfuscated files in destination folder',
-        'example' => 'php simpleobfuscate.php obfuscate --src="/path/to/files/" --dest="/path/to/out/files/" --msg="please dont touch the files" --iter=3'
+        'example' => 'php nonsense.php obfuscate --src="/path/to/files/" --dest="/path/to/out/files/" --msg="please dont touch the files" --iter=3'
     ],
 ]);
 

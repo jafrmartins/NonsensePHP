@@ -1,12 +1,15 @@
 {
-    "name": "saubi/php-simple-obfuscate",
+    "name": "saubi/nonsensephp",
     "autoload": {
         "psr-4": {
-            "Saubi\\PhpSimpleObfuscate\\": "src/"
+            "Saubi\\NonsensePHP\\": "src/"
         }
     },
+    "bin": [
+        "src/bin/nonsensephp"
+    ],
     "scripts": {
-        "run-cli": "php src/bin/nonsense.php obfuscate --src='./test/fixtures'",
+        "run-cli": "php src/bin/nonsense obfuscate --src='./test/fixtures'",
         "run-tests": "./vendor/bin/phpunit test --stop-on-failure"
 
     },
